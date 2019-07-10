@@ -1,0 +1,30 @@
+.footer{
+    box-sizing: border-box;
+    padding: 10px;
+    border-top: 1px solid lightgray;
+    height: 100px;
+    background-color: #f1f1f1;
+    justify-content: space-around;
+    display: flex;
+}
+.footer-title{
+    color: #504F5A;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.footer-item {
+    font-size: 14px;
+    margin-bottom:5px;
+    text-decoration: none;
+    color: rgb(32, 32, 34)
+}
+
+.footer-item:hover{
+    color: #4282ad;
+    text-decoration: underline;
+}
+
+.footerItem:hover {
+    text-decoration: underline;
+    color: #4282ad;
+}
