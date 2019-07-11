@@ -4,58 +4,37 @@ import { NavLink } from "react-router-dom";
 import queryString from "query-string";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import {dataForRenderingMenu} from "../../Data";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { loadCSS } from "fg-loadcss/src/loadCSS";
 import Icon from "@material-ui/core/Icon";
-import {CheckIfFriendsPending} from "../../Data";
+import {getMenuDataAction} from './../../Redux/Actions/Data'
 
-// constructor(props) {
-//   super(props);
-//   // this.state = {
-//   //     DSKH: []
-//   // }
-// }
-
-const mapStateToProps = state => {
-  return {
-    showMenu: state.showMenu,
-    checkedOutItems: state.checkedOutItems,
-    loggedInUser: state.loggedInUser
-  };
-}; 
 
 class ConnectedMenu extends Component {
   constructor(props) {
     super(props);
     
-    this.state = {
-      // Keep track of expanded title items in menu
-      expandedItems: dataForRenderingMenu.reduce((accum, current) => {
-        if (current.type === "title") {
-          accum[current.id] = true;
-        }
-        console.log(accum);
-        
-        return accum;
-      }, {}),
-      menuItems: dataForRenderingMenu
-    };
   }
 
   componentDidMount() {
     loadCSS("https://use.fontawesome.com/releases/v5.1.0/css/all.css");
+   
+  }
+  componentWillMount(){
+    console.log("mount"+this.props.categoryData);
+    
   }
 
   render() {
-    if (!this.props.showMenu) return null;
+    if (!this.props.showMenu) return null;  
     return (
       <div className="menu" >
-        {this.state.menuItems
+        {
+          this.props.categoryData
           .filter(y => {
             // If needed, filter some menu items first.
-            if (y.parentID && !this.state.expandedItems[y.parentID]) return false;
+            if (y.parentID && !this.props.expandedItems[y.parentID]) return false;
             if (y.protected && !this.props.loggedInUser) return false;
             return true;
           })
@@ -114,7 +93,7 @@ class ConnectedMenu extends Component {
                   }}
                 >
                   <span style={{ flex: 1 }}>{x.name}</span>
-                  {this.state.expandedItems[x.id] ? <ExpandLess /> : <ExpandMore />}
+                  {this.props.expandedItems[x.id] ? <ExpandLess /> : <ExpandMore />}
                 </div>
               );
             }
@@ -125,5 +104,26 @@ class ConnectedMenu extends Component {
     );
   }
 }
-const Menu = withRouter(connect(mapStateToProps)(ConnectedMenu));
+
+
+const mapStateToProps = state => {
+  return {
+    showMenu: state.showMenu,
+    checkedOutItems: state.checkedOutItems,
+    loggedInUser: state.loggedInUser,
+    categoryData: state.categoryData,
+    expandedItems:state.expandedItems,
+   menuItems: state.menuItems,
+
+  };
+}; 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getMenuData: () => {
+          dispatch(getMenuDataAction())
+      }
+  }
+}
+
+const Menu = withRouter(connect(mapStateToProps, mapDispatchToProps)(ConnectedMenu));
 export default Menu;

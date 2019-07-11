@@ -1,22 +1,22 @@
 import * as CONSTANTS from "../Constants/Data";
 import axios from 'axios';
 
-// export const getMenuData = () => {
-//   return dispatch => { 
-//       axios({
-//           url: 'https://shoponline-5fa44.firebaseio.com/Categories.json',
-//           method: 'GET'
-//       }).then(result => {
-//           console.log(result.data);
-//           dispatch({
-//               type:"GET_MENU_DATA",
-//               categoryMenu:result.data
-//           })
-//       }).catch(erorr => {
-//           console.log(erorr.respone.data);
-//       })
-//     }
-// }
+export const getMenuDataAction = () => {
+  return dispatch => { 
+      axios({
+          url: 'https://shoponline-5fa44.firebaseio.com/Categories.json',
+          method: 'GET'
+      }).then(result => {
+          // console.log(result.data);
+          dispatch({
+              type:"GET_MENU_DATA",
+              categoryData:result.data
+          })
+      }).catch(erorr => {
+          console.log(erorr.respone.data);
+      })
+    }
+}
 
 export const addItemInCart = item => ({
   type: CONSTANTS.ADD_ITEM_IN_CART,

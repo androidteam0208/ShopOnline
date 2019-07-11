@@ -19,7 +19,7 @@ const mapStateToProps = state => {
 class ConnectedOrder extends Component {
   render() {
     let totalPrice = this.props.checkedOutItems.reduce((accumulator, item) => {
-      console.log(item);  
+     // console.log(item);  
       return accumulator + item.price * item.quantity;
     }, 0);
 
