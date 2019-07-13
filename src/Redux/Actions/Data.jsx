@@ -9,8 +9,24 @@ export const getMenuDataAction = () => {
       }).then(result => {
           // console.log(result.data);
           dispatch({
-              type:"GET_MENU_DATA",
+              type:CONSTANTS.GET_MENU_DATA,
               categoryData:result.data
+          })
+      }).catch(erorr => {
+          console.log(erorr.respone.data);
+      })
+    }
+}
+export const getDataProduct = () => {
+  return dispatch => { 
+      axios({
+          url: 'https://shoponline-5fa44.firebaseio.com/Product.json',
+          method: 'GET'
+      }).then(result => {
+          console.log(result.data);
+          dispatch({
+              type:CONSTANTS.GET_PRODUCT_DATA,
+              productData:result.data
           })
       }).catch(erorr => {
           console.log(erorr.respone.data);

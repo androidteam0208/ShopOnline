@@ -18,7 +18,7 @@ const sortOptions = [
     Sort by price: Low to High
   </MenuItem>,
   <MenuItem key={"hl"} value={"hl"}>
-    Sort by price: zHigh to Low
+    Sort by price: High to Low
   </MenuItem>
 ];
 

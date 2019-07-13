@@ -14,11 +14,12 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCartOutlined";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
-const mapStateToProps = state => {
-  return { open: state.showCartDialog, items: state.cartItems };
-};
+
 
 class ConnectedCartDialog extends Component {
+  constructor(props) {
+    super(props);
+}
   render() {
     let totalPrice = this.props.items.reduce((accumulator, item) => {
       return accumulator + item.price * item.quantity;
@@ -99,5 +100,9 @@ class ConnectedCartDialog extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return { open: state.rootReducer.showCartDialog, items: state.rootReducer.cartItems };
+};
+
 const CartDialog = withRouter(connect(mapStateToProps)(ConnectedCartDialog));
 export default CartDialog;

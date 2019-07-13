@@ -7,10 +7,14 @@ const initialState = {
     showMenu: true,
     checkedOutItems: [],
     loggedInUser: null,
-    
+
+
     // data category get on firebase
-    categoryData:  [],
-    menuItems:[]
+    categoryData: [],
+    menuItems: [],
+    expandedItems: [],
+    productData: []
+
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -18,14 +22,18 @@ const rootReducer = (state = initialState, action) => {
         case CONSTANTS.GET_MENU_DATA:
             {
                 state.categoryData = action.categoryData;
-                  // Keep track of expanded title items in menu
-                  state.expandedItems =  state.categoryData.reduce((accum, current) => {
+                state.expandedItems = action.categoryData.reduce((accum, current) => {
                     if (current.type === "title") {
-                      accum[current.id] = true;
+                        accum[current.id] = true;
                     }
                     return accum;
-                  }, {});
-                  state.menuItems= state.categoryData;
+                }, {});
+                state.menuItems = action.categoryData;
+                return { ...state };
+            }
+        case CONSTANTS.GET_PRODUCT_DATA:
+            {
+                state.productData = action.productData;
                 return { ...state };
             }
         case CONSTANTS.ADD_ITEM_IN_CART:

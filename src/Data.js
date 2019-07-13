@@ -1,14 +1,7 @@
-// Our product database.
 import firebase from 'firebase';
 import firebaseConfig from './firebaseConfig';
-import axios from 'axios';
-
-
 firebase.initializeApp(firebaseConfig);
 
-const defaultState = {
-  categoryMenu : []
-} 
 
 /*function writeProductData() {
   var data = {
@@ -346,7 +339,6 @@ const sampleProducts = [
   },
 
 ];
-// List of item categories.
 const categories = [
   {
     name: "All categories",
@@ -369,58 +361,4 @@ const categories = [
     icon: "fas fa-desktop"
   }
 ];
-
-// Generate data for rendering menu on the left.  ------------ start custom firebase data
-const dataForRenderingMenu = ((categories) => {
-  let menuData = [
-    // { type: "item", name: "Home page", url: "/", id: 0, icon: "fas fa-home" },
-    { type: "title", name: "Product categories", id: 1 }
-  ];
-
-  let initialLength = menuData.length;
-
-  menuData = menuData.concat(
-    categories.map((x, i) => {
-      return {
-        name: x.name,
-        url: "/search/?category=" + x.name,
-        id: initialLength + i,
-        type: "item",
-        parentID: 1,
-        icon: x.icon
-      };
-    })
-  );
-
-  return menuData;
-})(categories)
-
-const dataForRenderingMenuXX = (() => {
-  let menuData = [];
-  firebase.database().ref('/Categories/').once('value', function (snapshot) {
-    snapshot.forEach(function (childSnapshot) {
-      menuData = menuData.concat(childSnapshot.val());
-    });
-    console.log(menuData);
-  });
-
-  return menuData;
-})(categories)
-
-
-const sampleProductsxx = (() => {
-  let products = [];
-  firebase.database().ref('/Product/').once('value', function (snapshot) {
-    snapshot.forEach(function (item) {
-      let childData = item.val();
-      products = products.concat(childData);
-    });
-
-  });
-
-  return products;
-})(categories)
-
-
-// end custom firebase data
-export { sampleProducts, categories, dataForRenderingMenu };
+export { sampleProducts, categories};

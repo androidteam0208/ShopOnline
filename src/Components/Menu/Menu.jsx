@@ -14,27 +14,34 @@ import {getMenuDataAction} from './../../Redux/Actions/Data'
 class ConnectedMenu extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      // Keep track of expanded title items in menu
+      expandedItems:  this.props.categoryData.reduce((accum, current) => {
+        if (current.type === "title") {
+          accum[current.id] = true;
+        }
+        return accum;
+      }, {})
+    };
     
   }
 
   componentDidMount() {
     loadCSS("https://use.fontawesome.com/releases/v5.1.0/css/all.css");
+    this.props.getMenuData();
    
-  }
-  componentWillMount(){
-    console.log("mount"+this.props.categoryData);
-    
   }
 
   render() {
-    if (!this.props.showMenu) return null;  
+    if (!this.props.showMenu) return null;
     return (
       <div className="menu" >
         {
           this.props.categoryData
           .filter(y => {
             // If needed, filter some menu items first.
-            if (y.parentID && !this.props.expandedItems[y.parentID]) return false;
+            if (y.parentID && !this.state.expandedItems[y.parentID]) return false;
             if (y.protected && !this.props.loggedInUser) return false;
             return true;
           })
@@ -106,14 +113,13 @@ class ConnectedMenu extends Component {
 }
 
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    showMenu: state.showMenu,
-    checkedOutItems: state.checkedOutItems,
-    loggedInUser: state.loggedInUser,
-    categoryData: state.categoryData,
-    expandedItems:state.expandedItems,
-   menuItems: state.menuItems,
+    showMenu: state.rootReducer.showMenu,
+    checkedOutItems: state.rootReducer.checkedOutItems,
+    loggedInUser: state.rootReducer.loggedInUser,
+    categoryData: state.rootReducer.categoryData,
+    expandedItems: state.rootReducer.expandedItems,
 
   };
 }; 
@@ -127,3 +133,4 @@ const mapDispatchToProps = (dispatch) => {
 
 const Menu = withRouter(connect(mapStateToProps, mapDispatchToProps)(ConnectedMenu));
 export default Menu;
+// export default connect(mapStateToProps, mapDispatchToProps)(ConnectedMenu);

@@ -8,5 +8,6 @@ export const SET_LOGGED_IN_USER = "SET_LOGGED_IN_USER";
 
 
 
-// add
-export const GET_MENU_DATA ="GET_MENU_DATA"
+// get data from firebase
+export const GET_MENU_DATA ="GET_MENU_DATA";
+export const GET_PRODUCT_DATA ="GET_PRODUCT_DATA";

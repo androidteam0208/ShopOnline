@@ -26,12 +26,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import SearchIcon from "@material-ui/icons/Search";
 
-const mapStateToProps = state => {
-  return {
-    nrOfItemsInCard: state.cartItems.length,
-    loggedInUser: state.loggedInUser
-  };
-};
+
 
 const categoryOptions = categories.map(x => {
   return (
@@ -42,6 +37,9 @@ const categoryOptions = categories.map(x => {
 });
 
 class ConnectedHeader extends Component {
+  constructor(props) {
+    super(props);
+  }
   state = {
     searchTerm: "",
     anchorEl: null,
@@ -180,6 +178,13 @@ class ConnectedHeader extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    nrOfItemsInCard: state.rootReducer.cartItems.length,
+    loggedInUser: state.rootReducer.loggedInUser,
+    categories: state.rootReducer.categoryData,
+  };
+};
 
 const Header = withRouter(connect(mapStateToProps)(ConnectedHeader));
 export default Header;
