@@ -28,12 +28,13 @@ class ConnectedCartDialog extends Component {
     return (
       <div>
         <Dialog
+       
           open={this.props.open}
           onClose={() => {
             this.props.dispatch(showCartDlg(false));
           }}
         >
-          <AppBar position="static" style={{ backgroundColor: "#3863aa" }}>
+          <AppBar position="static" style={{maxWidth:600, backgroundColor: "#3863aa" }}>
             <Toolbar>
               <ShoppingCartIcon
                 fontSize="large"
@@ -45,8 +46,8 @@ class ConnectedCartDialog extends Component {
 
           <div
             style={{
-              minWidth: 300,
-              maxHeight: 400,
+              minWidth: 600,
+              maxHeight: 300,
               padding: 10,
               overflow: "auto"
             }}
@@ -89,6 +90,8 @@ class ConnectedCartDialog extends Component {
               onClick={() => {
                 this.props.dispatch(showCartDlg(false));
                 this.props.dispatch(setCheckedOutItems(this.props.items));
+                console.log(this.props.items);
+                
                 this.props.history.push("/order");
               }}
             >
@@ -101,7 +104,10 @@ class ConnectedCartDialog extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  return { open: state.rootReducer.showCartDialog, items: state.rootReducer.cartItems };
+  return { 
+    open: state.rootReducer.showCartDialog, 
+    items: state.rootReducer.cartItems 
+  };
 };
 
 const CartDialog = withRouter(connect(mapStateToProps)(ConnectedCartDialog));

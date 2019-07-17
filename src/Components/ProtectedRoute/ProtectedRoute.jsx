@@ -2,8 +2,8 @@ import { Route, Redirect } from "react-router-dom";
 import React from "react";
 import { connect } from "react-redux";
 
-const mapStateToProps = state => {
-  return { loggedInUser: state.loggedInUser };
+const mapStateToProps = (state) => {
+  return { loggedInUser: state.rootReducer.loggedInUser };
 };
 
 // Implementation of a protected route component

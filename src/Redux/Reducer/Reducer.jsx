@@ -13,7 +13,10 @@ const initialState = {
     categoryData: [],
     menuItems: [],
     expandedItems: [],
-    productData: []
+    productData: [],
+
+    //add shopingcard
+    
 
 };
 

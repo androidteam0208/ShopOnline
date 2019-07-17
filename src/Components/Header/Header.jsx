@@ -25,7 +25,7 @@ import Select from "@material-ui/core/Select";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import SearchIcon from "@material-ui/icons/Search";
-
+import firebase from 'firebase';
 
 
 const categoryOptions = categories.map(x => {
@@ -166,7 +166,15 @@ class ConnectedHeader extends Component {
                     this.props.dispatch(setLoggedInUser(null));
                     this.props.history.push("/");
                   });
+                 
+                  firebase.auth().signOut().then(function() {
+                    console.log("signOut");
+                  }).catch(function(error) {
+                    console.log(error);
+                    
+                  });
                   this.setState({ anchorEl: null });
+                  
                 }}
               >
                 Logout

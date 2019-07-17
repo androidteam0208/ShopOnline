@@ -13,7 +13,7 @@ export const getMenuDataAction = () => {
               categoryData:result.data
           })
       }).catch(erorr => {
-          console.log(erorr.respone.data);
+          // console.log(erorr.response.data);
       })
     }
 }
@@ -29,7 +29,7 @@ export const getDataProduct = () => {
               productData:result.data
           })
       }).catch(erorr => {
-          console.log(erorr.respone.data);
+          // console.log(erorr.response.data);
       })
     }
 }

@@ -1,6 +1,8 @@
 import { sampleProducts } from "./Data";
+// import axios from 'axios';
 
 // Methods of this class are used to simulate calls to server.
+
 class Api {
   getItemUsingID(id) {
     return new Promise((resolve, reject) => {

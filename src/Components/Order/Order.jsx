@@ -9,14 +9,17 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { setCheckedOutItems } from "../../Redux/Actions/Data";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    checkedOutItems: state.checkedOutItems
+    checkedOutItems: state.rootReducer.checkedOutItems
   };
 };
 
 // This component shows the items user checked out from the cart.
 class ConnectedOrder extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     let totalPrice = this.props.checkedOutItems.reduce((accumulator, item) => {
      // console.log(item);  
@@ -67,6 +70,7 @@ class ConnectedOrder extends Component {
           disabled={totalPrice === 0}
           onClick={() => {
             console.log("purchased");
+            this.props.history.push("/payment");
           
           }}
           style={{ margin: 5, marginTop: 30 }}

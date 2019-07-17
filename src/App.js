@@ -8,8 +8,10 @@ import CartDialog from "./Components/CartDialog/CartDialog";
 import Details from "./Components/Details/Details";
 import Order from "./Components/Order/Order";
 import Login from "./Components/Login/Login";
+import SignUp from "./Components/Login/SignUp";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import Footer from "./Components/Footer/Footer";
+import Payment from "./Components/Order/Payment";
 
 class App extends Component {
   render() {
@@ -21,12 +23,14 @@ class App extends Component {
           <div className="content">
             <CartDialog />
             <Switch>
-              <Route path="/search/" component={ProductList} />
-              <Route path="/" exact component={ProductList} />
+              <Route path="/search/" component={ProductList} />             
               <Route path="/details/:id" component={Details} />
               <Route path="/about" render={() => <div>About us</div>} />
               <Route path="/login" component={Login} />
+              <Route path="/SignUp" component={SignUp} />
               <ProtectedRoute path="/order" component={Order} />
+              <ProtectedRoute path="/payment" component={Payment} />
+              <Route path="/" exact component={ProductList} />
               <Route
                 component={() => (
                   <div style={{ padding: 20 }}>Page not found</div>
