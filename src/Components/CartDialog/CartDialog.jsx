@@ -90,7 +90,7 @@ class ConnectedCartDialog extends Component {
               onClick={() => {
                 this.props.dispatch(showCartDlg(false));
                 this.props.dispatch(setCheckedOutItems(this.props.items));
-                console.log(this.props.items);
+                // console.log(this.props.items);
                 
                 this.props.history.push("/order");
               }}

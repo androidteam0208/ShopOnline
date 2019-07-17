@@ -70,27 +70,12 @@ state = {
             variant="outlined"
             color="primary"
             onClick={() => {
-              // Authenticate the user using entered credentials.
-              // Auth.authenticate(this.state.userName, this.state.pass, user => {
-              //   // Authentication failed.
-              //   if (!user) {
-              //     this.setState({ wrongCred: true });
-              //     return;
-              //   }
-
-              //   // If we get here, authentication was success.
-              //   this.props.dispatch(setLoggedInUser({ name: user.name }));
-              //   this.setState(() => ({
-              //     redirectToReferrer: true
-              //   }));
-              // });
-              firebase.auth().signInWithEmailAndPassword("thanhloc@mail.com", "thanhloc12345").then(()=>{
+              firebase.auth().signInWithEmailAndPassword( this.state.userName,this.state.pass).then(()=>{
                 this.props.dispatch(setLoggedInUser({ name: this.state.userName }));
                   this.setState(() => ({
                     redirectToReferrer: true
                   }));
               }).catch(function(error) {
-                // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 alert(error.message)
@@ -103,18 +88,7 @@ state = {
           <div style={{ color: "red" , textAlign: "right" , marginTop:5 , cursor:"pointer"}} onClick={() => {
               this.props.history.push("/SignUp");
             }}> Create Acount</div>
-          {/* <Button
-            style={{ marginTop: 10 }}
-            variant="outlined"
-            color="secondary"
-            onClick={() => {
-              this.props.history.push("/SignUp");
-            }}
-          >
-            Sign up
-          </Button> */}
-          {/* </div> */}
-          
+            
           {this.state.wrongCred && (
             <div style={{ color: "red" }}>Wrong username and/or password</div>
           )}

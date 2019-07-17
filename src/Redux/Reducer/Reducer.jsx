@@ -1,4 +1,5 @@
 import * as CONSTANTS from "../Constants/Data";
+import firebase from 'firebase';
 
 // If multiple components need access to some data, in that case we store such data in redux.
 const initialState = {
@@ -15,10 +16,39 @@ const initialState = {
     expandedItems: [],
     productData: [],
 
-    //add shopingcard
-    
+    //add shopingcart
+    paymentInfor : [],
+    totalPrice: 900,
+
+    cartInfor:{}
 
 };
+// const writeCart = () => {
+//    let cartInfor = {
+//         address:"Man Thien",
+//         id:1,
+//         customner: "TrucPhuong@mail.com",
+//         listProduct:[
+//             {
+//                 description: "Mô tả",
+//                 id: 1,
+//                 imageUrl: "url Hinh anh",
+//                 name: "tên san pham",
+//                 price: 100,
+//                 quantity: 2
+//             }
+//         ],
+//         phone: "098989898",
+//         status: true,
+//         totalPrice: 200
+
+//     }
+//   var updates = {};
+//   updates['/ShoppingCard/1'] = cartInfor;
+//   firebase.database().ref().update(updates);
+//   console.log("save success !");
+// }
+
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -39,10 +69,18 @@ const rootReducer = (state = initialState, action) => {
                 state.productData = action.productData;
                 return { ...state };
             }
+
+        case CONSTANTS.ADD_SHOPPING_CART:{
+          state.cartInfor = action.cart;
+          var updates = {};
+          updates['/ShoppingCard/1'] = state.cartInfor ;
+          firebase.database().ref().update(updates);
+          console.log("save success !");
+          return {...state};
+        }
         case CONSTANTS.ADD_ITEM_IN_CART:
             {
                 let index = state.cartItems.findIndex(x => x.id === action.payload.id);
-
                 // Is the item user wants to add already in the cart?
                 if (index !== -1) {
                     // Yes, update the quantity.
@@ -54,7 +92,8 @@ const rootReducer = (state = initialState, action) => {
 
                     return { ...state, cartItems: cloneCartItems };
                 }
-
+                console.log("usre ", state.loggedInUser);
+                console.log("usre2 ", state.checkedOutItems);
                 // No, add a new item.
                 return { ...state, cartItems: state.cartItems.concat(action.payload) };
             }

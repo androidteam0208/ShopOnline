@@ -33,6 +33,12 @@ export const getDataProduct = () => {
       })
     }
 }
+export const addShoppingCartAction = (cart) => {
+  return {
+      type: CONSTANTS.ADD_SHOPPING_CART,
+      cart
+  }
+}
 
 export const addItemInCart = item => ({
   type: CONSTANTS.ADD_ITEM_IN_CART,
