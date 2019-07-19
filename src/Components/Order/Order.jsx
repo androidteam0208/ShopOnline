@@ -7,22 +7,23 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { setCheckedOutItems } from "../../Redux/Actions/Data";
+import { setCheckedOutItems , clearCartAction} from "../../Redux/Actions/Data";
 
 const mapStateToProps = (state) => {
   return {
-    checkedOutItems: state.rootReducer.checkedOutItems
+    checkedOutItems: state.rootReducer.checkedOutItems,
+    // cartItems: state.rootReducer.cartItems
   };
 };
 
 // This component shows the items user checked out from the cart.
 class ConnectedOrder extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
   render() {
     let totalPrice = this.props.checkedOutItems.reduce((accumulator, item) => {
-     // console.log(item);  
+      // console.log(item);  
       return accumulator + item.price * item.quantity;
     }, 0);
 
@@ -44,7 +45,7 @@ class ConnectedOrder extends Component {
             {this.props.checkedOutItems.map((item, index) => {
               return (
                 <TableRow key={item.id}>
-                  <TableCell ><img style={{ width : "100px" }} src={item.imageUrls[0]}/></TableCell>
+                  <TableCell ><img style={{ width: "100px" }} alt="Product" src={item.imageUrls[0]} /></TableCell>
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{item.price}</TableCell>
                   <TableCell>{item.quantity}</TableCell>
@@ -69,9 +70,7 @@ class ConnectedOrder extends Component {
           variant="outlined"
           disabled={totalPrice === 0}
           onClick={() => {
-            console.log("purchased");
-            this.props.history.push("/payment");
-          
+              this.props.history.push("/payment");
           }}
           style={{ margin: 5, marginTop: 30 }}
         >
@@ -82,7 +81,9 @@ class ConnectedOrder extends Component {
           variant="outlined"
           disabled={totalPrice === 0}
           onClick={() => {
+            // this.props.cartItems=[];
             this.props.dispatch(setCheckedOutItems([]));
+            this.props.dispatch(clearCartAction());
           }}
           style={{ margin: 5, marginTop: 30 }}
         >

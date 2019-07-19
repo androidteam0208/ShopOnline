@@ -123,7 +123,7 @@ const sampleProducts = [
     category: "Computers",
     price: 160,
     description: "",
-    popular: true,
+    popular: false,
     imageUrls: [
       "./../img/keyboard1.jpg"
     ]
@@ -132,10 +132,10 @@ const sampleProducts = [
     id: 10,
     name: "Swatch Blue Suit Mens Watch YGS747 Wrist Watch",
     category: "Jewelry and Watches",
-    price: 120,
+    price: 190,
     description: "",
 
-    popular: false,
+    popular: true,
     imageUrls: [
       "./../img/watch4.jpg"
     ]
@@ -156,7 +156,7 @@ const sampleProducts = [
     id: 12,
     name: "Invicta Men's Pro Diver Collection Watch -Black",
     category: "Jewelry and Watches",
-    price: 130,
+    price: 200,
     description:
       "Water resistant to 200 m (660 ft): In general, suitable for professional marine activity and serious surface water sports, but not scuba diving",
 
@@ -210,7 +210,7 @@ const sampleProducts = [
     description:
       "These running shoes combine comfort and high-performance technology for a best-ever-run feeling. They have a stretchy knit upper that adapts to the changing shape of your foot as you run. Responsive midsole cushioning and a flexible outsole deliver a smoo",
 
-    popular: false,
+    popular: true,
     imageUrls: [
       "./../img/sneaker2.jpg"
     ]

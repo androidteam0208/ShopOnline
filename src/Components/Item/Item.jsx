@@ -16,7 +16,7 @@ class ConnectedItem extends Component {
         onClick={() => {
           this.props.history.push("/details/" + this.props.item.id);
         }}>
-        <img className="card-img-top item-image" src={this.props.item.imageUrls[0]} alt="Card image"  />
+        <img className="card-img-top item-image"  src={this.props.item.imageUrls[0]} alt="Card"  />
         <div className="card-body">
           <h4 className="card-title item-title" > 
           {this.props.item.popular ? (

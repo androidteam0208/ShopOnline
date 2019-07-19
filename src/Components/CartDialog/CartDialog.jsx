@@ -106,7 +106,7 @@ class ConnectedCartDialog extends Component {
 const mapStateToProps = (state) => {
   return { 
     open: state.rootReducer.showCartDialog, 
-    items: state.rootReducer.cartItems 
+    items: state.rootReducer.cartItems ,
   };
 };
 

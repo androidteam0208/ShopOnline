@@ -3,49 +3,50 @@ import { withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { setLoggedInUser } from "../../Redux/Actions/Data";
 import firebase from 'firebase';
-import { addShoppingCartAction } from "./../../Redux/Actions/Data"
+import { addShoppingCartAction , clearCartAction} from "./../../Redux/Actions/Data"
 
 // import "./Login.css";
 
 class payment extends Component {
   constructor(props) {
-    super(props);
-    
-   this.state = {
+    super(props)
+  }
+  state = {
     firstName: "",
     lastName: "",
     address: "",
-    id: 1,
-    customner: "",
-    listProduct: [],
-    phone: "",
+    phone:"", 
+    id:0,
+    }
+  
+  
+  handleInput = (event) => {
+    let name = event.target.name; 
+    let value = event.target.value;
+    this.setState({
+      [name]: value
+    })
+  }
+  cartInfor = {
+    name: "",
+    address: "",
+    phone:"",
+    id: "",
+    customner: this.props.customner,
+    listProduct: this.props.checkedOutItems,
     status: true,
-    totalPrice: this.props.totalPrice
-  };
+    totalPrice: 400
 
   }
-  handleInput = (event) => {
-    let name = event.target.name;
-    let value = event.target.value;
 
-    this.setState({
-        [name]: value
-    })
-    // console.log(this.state);
-}
-  // cartInfor = {
-  //   name: "",
-  //   address: "",
-  //   id: 1,
-  //   customner: this.props.loggedInUser,
-  //   listProduct: this.props.checkedOutItems,
-  //   phone: "",
-  //   status: true,
-  //   totalPrice: this.props.totalPrice
-
+  // getId = ()=>{
+  //   firebase.database().ref().child("Categories").on("value", function(snapshot) {
+  //     let id = snapshot.numChildren();
+  //     return id;
+  //   });      
   // }
+
 
   render() {
 
@@ -79,31 +80,27 @@ class payment extends Component {
           </div>
           <div className="d-flex justify-content-between">
             <TextField style={{ width: 230 }}
-              name ="firstName"
+              name="firstName"
               label="First Name *"
               onChange={this.handleInput}
             />
             <TextField style={{ width: 230 }}
-            name ="lastName"
               label="Last Name *"
+              name="lastName"
               onChange={this.handleInput}
             />
           </div>
           <TextField
             style={{ marginTop: 10 }}
-            value={this.state.phone}
             label="Phone *"
-            onChange={e => {
-              this.setState({ phone: e.target.value });
-            }}
+            name="phone"
+            onChange={this.handleInput}
           />
           <TextField
             style={{ marginTop: 10 }}
-            value={this.state.address}
             label="Address *"
-            onChange={e => {
-              this.setState({ address: e.target.value });
-            }}
+            name="address"
+            onChange={this.handleInput}
           />
           <div className="d-flex mt-2 justify-content-between">
             <TextField style={{ marginTop: 10, width: 230 }}
@@ -121,13 +118,23 @@ class payment extends Component {
             variant="outlined"
             color="primary"
             onClick={() => {
-              let name = this.state.firstName + this.state.lastName;
-              this.setState({ customner: this.props.loggedInUser,  listProduct: this.props.checkedOutItems});
-              console.log(this.state);
-              // this.props.paymentInfor.push(name, this.state.numberPhone, this.state.address);
-              this.props.addShoppingCart(this.state)
-              
-              
+
+              let fullName = this.state.firstName +" "+ this.state.lastName;
+              this.cartInfor = {
+                name: fullName,
+                address:  this.state.address,
+                phone:this.state.phone,
+                id: this.state.id,
+                customner: this.props.customner,
+                listProduct: this.props.checkedOutItems,
+                status: true,
+                totalPrice: 400
+            
+              }
+              this.props.addShoppingCart(this.cartInfor);
+              this.props.clearCart();
+              this.props.history.push("/");
+
             }}
           >
             Checkout
@@ -153,6 +160,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addShoppingCart: (cart) => {
       dispatch(addShoppingCartAction(cart));
+    },
+    clearCart:()=>{
+      dispatch(clearCartAction());
     }
   }
 }

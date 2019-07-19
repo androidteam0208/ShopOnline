@@ -15,6 +15,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 
 const CartRow = props => {
   let { item } = props;
+
   return (
     <TableRow className="text-center">
       <TableCell>
@@ -26,7 +27,7 @@ const CartRow = props => {
               props.dispatch(showCartDlg(false));
             }}
           >
-            <img src={item.imageUrls[0]}  style={{ width: 70}}/>
+            <img src={item.imageUrls[0]}  alt="Product" style={{ width: 70}}/>
             
           </div>
         </Link>
@@ -44,7 +45,10 @@ const CartRow = props => {
           }}>
             <RemoveIcon size="small" />
           </IconButton>
-          <IconButton  style={{ width: 30 , height:30}} color="secondary" onChange={e => {
+          <IconButton  
+              style={{ width: 30 , height:30}} 
+              color="secondary" 
+              onChange={e => {
               let quantity = parseInt(e.target.value, 10);
               if (quantity < 0) return;
 
@@ -79,7 +83,6 @@ const CartRow = props => {
           &nbsp;
              <IconButton style={{ width: 30 , height:30}} onClick={() => {
             let val = parseInt(item.quantity);
-
             val += 1;
             item.quantity = val;
 

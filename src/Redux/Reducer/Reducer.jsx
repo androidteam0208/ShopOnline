@@ -17,37 +17,34 @@ const initialState = {
     productData: [],
 
     //add shopingcart
-    paymentInfor : [],
-    totalPrice: 900,
-
-    cartInfor:{}
+    paymentInfor: [],
+    totalPrice: 0,
+    cartInfor: {},
+    idShoppingCart: 0,
+    //for user
+    user:{},
+    idNewUser: 0
 
 };
-// const writeCart = () => {
-//    let cartInfor = {
-//         address:"Man Thien",
-//         id:1,
-//         customner: "TrucPhuong@mail.com",
-//         listProduct:[
-//             {
-//                 description: "Mô tả",
-//                 id: 1,
-//                 imageUrl: "url Hinh anh",
-//                 name: "tên san pham",
-//                 price: 100,
-//                 quantity: 2
-//             }
-//         ],
-//         phone: "098989898",
-//         status: true,
-//         totalPrice: 200
+function createId() {
+    firebase.database().ref().child("ShoppingCart").on("value", function (snapshot) {
+        let idCart = snapshot.numChildren();
+        initialState.idShoppingCart = idCart;
+        return;
+    });
+}
+createId();
 
-//     }
-//   var updates = {};
-//   updates['/ShoppingCard/1'] = cartInfor;
-//   firebase.database().ref().update(updates);
-//   console.log("save success !");
-// }
+function writeCartData(table, data) {
+    var updates = {};
+    updates[`/${table}/` + initialState.idShoppingCart] = data;
+    firebase.database().ref().update(updates).then(()=>{
+        alert("Order Successfull")
+    }).catch((error)=>{
+        var errorMessage = error.message;
+        alert(errorMessage); 
+    });
+}
 
 
 const rootReducer = (state = initialState, action) => {
@@ -70,14 +67,22 @@ const rootReducer = (state = initialState, action) => {
                 return { ...state };
             }
 
-        case CONSTANTS.ADD_SHOPPING_CART:{
-          state.cartInfor = action.cart;
-          var updates = {};
-          updates['/ShoppingCard/1'] = state.cartInfor ;
-          firebase.database().ref().update(updates);
-          console.log("save success !");
-          return {...state};
+        case CONSTANTS.ADD_SHOPPING_CART: {
+
+            state.cartInfor = action.cart;
+            writeCartData('ShoppingCart',state.cartInfor);
+            return { ...state };
         }
+        //clear cart 
+        case CONSTANTS.CLEAR_CART: {
+            return { ...state, cartItems: [] };
+        }
+        case CONSTANTS.ADD_CUSTOMER: {
+            state.user = action.user;
+            // writeUsertData('Customer',state.user, initialState.idNewUser)
+            return { ...state };
+        }
+
         case CONSTANTS.ADD_ITEM_IN_CART:
             {
                 let index = state.cartItems.findIndex(x => x.id === action.payload.id);
@@ -92,8 +97,6 @@ const rootReducer = (state = initialState, action) => {
 
                     return { ...state, cartItems: cloneCartItems };
                 }
-                console.log("usre ", state.loggedInUser);
-                console.log("usre2 ", state.checkedOutItems);
                 // No, add a new item.
                 return { ...state, cartItems: state.cartItems.concat(action.payload) };
             }
@@ -137,10 +140,11 @@ const rootReducer = (state = initialState, action) => {
                 }
                 return { ...state };
             }
+        default: return { ...state };
 
     }
 
-    return { ...state };
+
 };
 
 export default rootReducer;

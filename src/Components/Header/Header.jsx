@@ -6,7 +6,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Badge from "@material-ui/core/Badge";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { withRouter } from "react-router-dom";
+import { withRouter , NavLink} from "react-router-dom";
 import { connect } from "react-redux";
 import {
   showCartDlg,
@@ -37,15 +37,23 @@ const categoryOptions = categories.map(x => {
 });
 
 class ConnectedHeader extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
   state = {
     searchTerm: "",
     anchorEl: null,
     categoryFilter: categories[0].name
   };
-
+  // componentWillMount(){
+  //   // get key of dataFirse 
+  //   firebase.database().ref("Categories").on("value", function(snapshot) {
+  //     let arr = snapshot.val();
+  //     let arr2 = Object.keys(arr);
+  //     // let key = arr2[1];
+  //     // console.log(arr2)
+  //   });
+  // }
   render() {
     let { anchorEl } = this.state;
 
@@ -60,12 +68,12 @@ class ConnectedHeader extends Component {
             >
               <MenuIcon size="medium" />
             </IconButton>
-            <a href="/">
-              <img className="header-icon"
-              src={cartImage}
-              alt={"Logo"}
-              
-            /></a>
+            <NavLink 
+                  to={"/"}><img className="header-icon"
+                  src={cartImage}
+                  alt={"Logo"}
+                  title={"Home"}
+                  /></NavLink>
             
             <div className="d-flex filter">
             <TextField className="header-search"

@@ -14,3 +14,5 @@ export const GET_PRODUCT_DATA ="GET_PRODUCT_DATA";
 
 //add Shoppingcard to fireBase
 export const ADD_SHOPPING_CART  ="ADD_SHOPPING_CART";
+export const ADD_CUSTOMER ="ADD_CUSTOMER";
+export const CLEAR_CART ="CLEAR_CART";
