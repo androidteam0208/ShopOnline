@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import firebase from 'firebase';
 import { addShoppingCartAction , clearCartAction} from "./../../Redux/Actions/Data"
+import Swal from 'sweetalert2'
 
 // import "./Login.css";
 
@@ -26,8 +27,38 @@ class payment extends Component {
     let value = event.target.value;
     this.setState({
       [name]: value
-    })
+    });
+    
   }
+handleInputValidation = (event) => {
+  let textError = "";
+  let name = event.target.name;  
+  let checkingText = event.target.value;
+  console.log(name);
+  
+  if(name === "firstName" || name === "lastName"){
+    let regexp = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)$/;
+    let checkingResult = regexp.exec(checkingText);
+    if (checkingResult == null) {
+       textError= 'Name dont had number and Special character  ! ';
+    }
+  }
+  else if(name === "phone"){
+    let regexp = /^\d{10,11}$/;
+    let checkingResult = regexp.exec(checkingText);
+    if (checkingResult == null) {
+       textError= 'NumberPhone content 10-11 number character ! ';
+    }
+  }
+  Swal.fire({
+    title: 'Warning!',
+    text: textError,
+    type: 'warning',
+  })
+  
+}
+
+
   cartInfor = {
     name: "",
     address: "",
@@ -95,12 +126,14 @@ class payment extends Component {
             label="Phone *"
             name="phone"
             onChange={this.handleInput}
+            onBlur={this.handleInputValidation}
           />
           <TextField
             style={{ marginTop: 10 }}
             label="Address *"
             name="address"
             onChange={this.handleInput}
+           
           />
           <div className="d-flex mt-2 justify-content-between">
             <TextField style={{ marginTop: 10, width: 230 }}

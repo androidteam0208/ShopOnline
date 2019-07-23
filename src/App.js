@@ -18,7 +18,7 @@ class App extends Component {
     return (
       <div className="app">
         <Header />
-        <div className="app-body" style={{marginTop:80}}>
+        <div className="app-body" style={{marginTop:80, minHeight:570}}>
           <Menu />
           <div className="content">
             <CartDialog />

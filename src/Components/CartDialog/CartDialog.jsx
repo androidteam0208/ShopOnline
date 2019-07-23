@@ -13,6 +13,9 @@ import CartRow from "./CartRow";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCartOutlined";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+// import IconButton from "@material-ui/core/IconButton";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+
 
 
 
@@ -41,7 +44,19 @@ class ConnectedCartDialog extends Component {
                 style={{ color: "white", marginRight: 10 }}
               />
               Shopping Cart
+              <span  style={{display:"inline-block" , position:"absolute" , right:10}}>
+              <HighlightOffIcon   
+                fontSize="large"
+                style={{ color: "white" , cursor:"pointer" }}
+                onClick = {()=>{
+                  this.props.dispatch(showCartDlg(false));
+                }}
+             
+            />
+              </span>
+            
             </Toolbar>
+            
           </AppBar>
 
           <div

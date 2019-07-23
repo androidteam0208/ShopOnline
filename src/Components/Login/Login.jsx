@@ -4,10 +4,16 @@ import { connect } from "react-redux";
 // import Auth from "../../Auth";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import CreateIcon from "@material-ui/icons/Create";
+// import VisibilityIcon from "@material-ui/icons/Visibility";
 import { setLoggedInUser } from "../../Redux/Actions/Data";
 import firebase from 'firebase';
 
+import Swal from 'sweetalert2'
+
 import "./Login.css";
+
 
 class ConnectedLogin extends Component {
   // constructor(props) {
@@ -17,11 +23,11 @@ class ConnectedLogin extends Component {
   state = {
     userName: "",
     pass: "",
-    redirectToReferrer: false
+    redirectToReferrer: false,
   };
 
   handleInput = (event) => {
-    let name = event.target.name; 
+    let name = event.target.name;
     let value = event.target.value;
     this.setState({
       [name]: value
@@ -46,6 +52,10 @@ class ConnectedLogin extends Component {
             flexDirection: "column"
           }}
         >
+          <LockOutlinedIcon
+            // fontSize
+            style={{ fontSize: 50, color: "#F50057", cursor: "pointer", margin: "0 auto" }}
+          />
           <div
             style={{
               color: "primary",
@@ -72,6 +82,7 @@ class ConnectedLogin extends Component {
             name="pass"
             onChange={this.handleInput}
           />
+          {/* <VisibilityIcon  style={{ marginTop: 10 }}/> */}
           {/* <div className="d-flex justify-content-between mt-3"> */}
           <Button
             style={{ marginTop: 20 }}
@@ -81,26 +92,32 @@ class ConnectedLogin extends Component {
               firebase.auth().signInWithEmailAndPassword(this.state.userName, this.state.pass).then(() => {
                 this.props.dispatch(setLoggedInUser(this.state.userName));
                 this.setState(() => ({
-                  redirectToReferrer: true
+                  redirectToReferrer: true,
                 }));
-              }).catch(function (error) {
+              }).catch((error) => {
                 // var errorCode = error.code;
-                var errorMessage = error.message;
-                alert(errorMessage)
-                // ...
+                let errorMessage = error.message;
+                Swal.fire({
+                  title: 'Error!',
+                  text: errorMessage,
+                  type: 'error',
+                })
               });
             }}
           >
             Log in
           </Button>
-          <span style={{ color: "red", textAlign: "right", marginTop: 5, cursor: "pointer" }} onClick={() => {
-            this.props.history.push("/SignUp");
-          }}> Create Acount </span>
+          <span
+            style={{ color: "red", textAlign: "right", marginTop: 5, cursor: "pointer" }}
+            onClick={() => {
+              this.props.history.push("/SignUp");
+            }}>
+            <CreateIcon style={{ color: "red" }} />
+            Create Acount </span>
 
-          {this.state.wrongCred && (
-            <div style={{ color: "red" }}>Wrong username and/or password</div>
-          )}
         </div>
+
+
       </div>
     );
   }

@@ -23,15 +23,22 @@ const initialState = {
     idShoppingCart: 0,
     //for user
     user:{},
-    idNewUser: 0
+    idNewUser: 0,
+
 
 };
 function createId() {
     firebase.database().ref().child("ShoppingCart").on("value", function (snapshot) {
         let idCart = snapshot.numChildren();
         initialState.idShoppingCart = idCart;
-        return;
     });
+    firebase.database().ref().child("Customer").on("value", function (snapshot) {
+        let idUser = snapshot.numChildren();
+        console.log(idUser);
+        
+        initialState.idNewUser = idUser;
+    });
+    return;
 }
 createId();
 
@@ -39,7 +46,18 @@ function writeCartData(table, data) {
     var updates = {};
     updates[`/${table}/` + initialState.idShoppingCart] = data;
     firebase.database().ref().update(updates).then(()=>{
-        alert("Order Successfull")
+        // alert("Order Successfull")
+    }).catch((error)=>{
+        var errorMessage = error.message;
+        alert(errorMessage); 
+    });
+}
+
+function writeUsertData(table, data) {
+    var updates = {};
+    updates[`/${table}/` + initialState.idNewUser] = data;
+    firebase.database().ref().update(updates).then(()=>{
+        // alert("Save User Successfull")
     }).catch((error)=>{
         var errorMessage = error.message;
         alert(errorMessage); 
@@ -79,7 +97,7 @@ const rootReducer = (state = initialState, action) => {
         }
         case CONSTANTS.ADD_CUSTOMER: {
             state.user = action.user;
-            // writeUsertData('Customer',state.user, initialState.idNewUser)
+            writeUsertData('Customer',state.user)
             return { ...state };
         }
 

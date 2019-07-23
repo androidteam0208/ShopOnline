@@ -6,7 +6,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Badge from "@material-ui/core/Badge";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { withRouter , NavLink} from "react-router-dom";
+import { withRouter, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   showCartDlg,
@@ -15,8 +15,8 @@ import {
   setCheckedOutItems
 } from "../../Redux/Actions/Data";
 import cartImage from "../../Images/bagicon.png";
-import Auth from "../../Auth";
-import { categories } from "../../Data"; 
+
+import { categories } from "../../Data";
 import Person from "@material-ui/icons/PersonOutline";
 import Avatar from "@material-ui/core/Avatar";
 import Menu from "@material-ui/core/Menu";
@@ -26,6 +26,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import SearchIcon from "@material-ui/icons/Search";
 import firebase from 'firebase';
+import Swal from 'sweetalert2'
 
 
 const categoryOptions = categories.map(x => {
@@ -68,56 +69,54 @@ class ConnectedHeader extends Component {
             >
               <MenuIcon size="medium" />
             </IconButton>
-            <NavLink 
-                  to={"/"}><img className="header-icon"
-                  src={cartImage}
-                  alt={"Logo"}
-                  title={"Home"}
-                  /></NavLink>
-            
+            <NavLink
+              to={"/"}><img className="header-icon"
+                src={cartImage}
+                alt={"Logo"}
+                title={"Home"}
+              /></NavLink>
+
             <div className="d-flex filter">
-            <TextField className="header-search"
-              label="Search products"
-              value={this.state.searchTerm}
-              onChange={e => {
-                this.setState({ searchTerm: e.target.value });
-              }}
-             
-            />
+              <TextField className="header-search"
+                label="Search products"
+                value={this.state.searchTerm}
+                onChange={e => {
+                  this.setState({ searchTerm: e.target.value });
+                }}
 
-            <Select className="header-select"   
-              value={this.state.categoryFilter}
-              MenuProps={{
-                style: {
-                  maxHeight: 500
-                }
-              }}
-              onChange={e => {
-                this.setState({ categoryFilter: e.target.value });
-              }}
-            >
-              {categoryOptions}
-            </Select>
+              />
 
-            <Button
-              style={{ marginLeft: 20 }}
-              variant="outlined"
-              color="primary"
-              onClick={() => {
-                // Generate new URL to redirect user to
-                this.props.history.push(
-                  "/search/?category=" +
+              <Select className="header-select"
+                value={this.state.categoryFilter}
+                MenuProps={{
+
+                }}
+                onChange={e => {
+                  this.setState({ categoryFilter: e.target.value });
+                }}
+              >
+                {categoryOptions}
+              </Select>
+
+              <Button
+                style={{ marginLeft: 20 }}
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  // Generate new URL to redirect user to
+                  this.props.history.push(
+                    "/search/?category=" +
                     this.state.categoryFilter +
                     "&term=" +
                     this.state.searchTerm
-                );
-              }}
-            >
-              {" "}
-              <SearchIcon color="primary" size="small" />   Search 
+                  );
+                }}
+              >
+                {" "}
+                <SearchIcon color="primary" size="small" />   Search
             </Button>
             </div>
-            
+
           </div>
           <div className="right-part">
             {!this.props.loggedInUser ? (
@@ -132,15 +131,15 @@ class ConnectedHeader extends Component {
                 Log in
               </Button>
             ) : (
-              <Avatar
-                onClick={event => {
-                  this.setState({ anchorEl: event.currentTarget });
-                }}
-                style={{ backgroundColor: "#3f51b5", marginLeft: 50 }}
-              >
-                <Person />
-              </Avatar>
-            )}
+                <Avatar
+                  onClick={event => {
+                    this.setState({ anchorEl: event.currentTarget });
+                  }}
+                  style={{ backgroundColor: "#3f51b5", marginLeft: 50 }}
+                >
+                  <Person />
+                </Avatar>
+              )}
             <IconButton
               aria-label="Cart"
               style={{ position: "absolute", right: 0 }}
@@ -169,20 +168,33 @@ class ConnectedHeader extends Component {
               </MenuItem>
               <MenuItem
                 onClick={() => {
-                  Auth.signout(() => {
-                    this.props.dispatch(setCheckedOutItems([]));
-                    this.props.dispatch(setLoggedInUser(null));
-                    this.props.history.push("/");
-                  });
-                 
-                  firebase.auth().signOut().then(function() {
-                    console.log("signOut");
-                  }).catch(function(error) {
-                    console.log(error);
-                    
-                  });
                   this.setState({ anchorEl: null });
-                  
+                  Swal.fire({
+                    title: 'Are you sure Logout?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Logout!',
+                  }).then((result) => {
+
+                    if (result.value) {
+                      firebase.auth().signOut().then(() => {
+                        this.props.dispatch(setCheckedOutItems([]));
+                        this.props.dispatch(setLoggedInUser(null));
+                        this.props.history.push("/");
+
+                      }).catch(function (error) {
+                        console.log(error);
+
+                      });
+                      this.setState({ anchorEl: null });
+                    }
+                  })
+
+
+
                 }}
               >
                 Logout

@@ -133,4 +133,3 @@ const mapDispatchToProps = (dispatch) => {
 
 const Menu = withRouter(connect(mapStateToProps, mapDispatchToProps)(ConnectedMenu));
 export default Menu;
-// export default connect(mapStateToProps, mapDispatchToProps)(ConnectedMenu);

@@ -14,6 +14,7 @@ import TextField from "@material-ui/core/TextField";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Swal from 'sweetalert2'
 
 var Remarkable = require("remarkable");
 
@@ -161,7 +162,7 @@ class ConnectedDetails extends Component {
                 <RemoveIcon size="small" />
               </IconButton>
               &nbsp;
-            <TextField className="details-quantity"
+            <TextField className="details-quantity "
                 type="text"
                 value={this.state.quantity}
                 onChange={e => {
@@ -188,6 +189,13 @@ class ConnectedDetails extends Component {
                     quantity: parseInt(this.state.quantity)
                   })
                 );
+                Swal.fire({
+                  type: 'success',
+                  title: 'Add to cart !',
+                  showConfirmButton: false,
+                  timer: 1000,
+                  width: 300,
+                })
               }}
             >
               Add to Cart &nbsp; <AddShoppingCartIcon style={{ marginLeft: 5 }} />
