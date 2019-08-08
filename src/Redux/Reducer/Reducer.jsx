@@ -1,6 +1,6 @@
 import * as CONSTANTS from "../Constants/Data";
 import firebase from 'firebase';
-
+import Swal from 'sweetalert2'
 // If multiple components need access to some data, in that case we store such data in redux.
 const initialState = {
     cartItems: [],
@@ -13,7 +13,7 @@ const initialState = {
     // data category get on firebase
     categoryData: [],
     menuItems: [],
-    expandedItems: [],
+    // expandedItems: [],
     productData: [],
 
     //add shopingcart
@@ -22,30 +22,90 @@ const initialState = {
     cartInfor: {},
     idShoppingCart: 0,
     //for user
-    user:{},
-    idNewUser: 0
+    user: {},
+    idNewUser: 0,
+
+    //CART DATA ADMIN
+    cartData: [],
+
+    //inventory update
+    inventory: 0,
+
 
 };
-function createId() {
+function createIdCart() {
+
     firebase.database().ref().child("ShoppingCart").on("value", function (snapshot) {
         let idCart = snapshot.numChildren();
-        initialState.idShoppingCart = idCart;
-        return;
+        let arr = snapshot.val();
+        let arr2 = Object.keys(arr);
+        let key = parseInt(arr2[idCart - 1]) + 1;
+        initialState.idShoppingCart = key;
+
     });
+    return;
 }
-createId();
+function createIdCustomer() {
+    firebase.database().ref().child("Customer").on("value", function (snapshot) {
+        let idUser = snapshot.numChildren();
+        let arr = snapshot.val();
+        let arr2 = Object.keys(arr);
+        let key = parseInt(arr2[idUser - 1]) + 1;
+        initialState.idNewUser = key;
+
+    });
+    return;
+
+}
 
 function writeCartData(table, data) {
     var updates = {};
     updates[`/${table}/` + initialState.idShoppingCart] = data;
-    firebase.database().ref().update(updates).then(()=>{
-        alert("Order Successfull")
-    }).catch((error)=>{
+    firebase.database().ref().update(updates).then(() => {
+        Swal.fire({
+            type: 'success',
+            title: 'Your order has been save',
+            showConfirmButton: false,
+            timer: 1000
+        })
+    }).catch((error) => {
         var errorMessage = error.message;
-        alert(errorMessage); 
+        alert(errorMessage);
     });
 }
 
+function writeUsertData(table, data) {
+    var updates = {};
+    var userId = firebase.auth().currentUser.uid;
+
+    updates[`/${table}/` + userId] = data;
+    firebase.database().ref().update(updates).then(() => {
+        Swal.fire({
+            type: 'success',
+            title: 'Sign in Successfull',
+            showConfirmButton: false,
+            timer: 1000
+        })
+    }).catch((error) => {
+        var errorMessage = error.message;
+        Swal.fire({
+            type: 'error',
+            title: 'Oops...',
+            text: errorMessage,
+        })
+    });
+}
+
+// function reduceProductInventory(id, number) {
+//     let rootRef = firebase.database().ref();
+//     rootRef.child("Product/" + id).on("value", function (snapshot) {
+//         let inventory = snapshot.child("inventory").val();
+//         initialState.inventory = inventory - number;
+//         console.log(initialState.inventory);
+//     });
+//     rootRef.child("Product/" + id).update({ 'inventory': initialState.inventory })
+
+// }
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -68,23 +128,38 @@ const rootReducer = (state = initialState, action) => {
             }
 
         case CONSTANTS.ADD_SHOPPING_CART: {
-
+            // reduceProductInventory(0,2);
             state.cartInfor = action.cart;
-            writeCartData('ShoppingCart',state.cartInfor);
+            state.cartInfor.id = initialState.idShoppingCart;
+            writeCartData('ShoppingCart', state.cartInfor);
             return { ...state };
         }
+        //set total price
+        case CONSTANTS.SET_TOTAL_PRICE:
+            {
+                console.log("aa", action.price);
+                state.totalPrice = action.price;
+                return { ...state };
+            }
         //clear cart 
         case CONSTANTS.CLEAR_CART: {
             return { ...state, cartItems: [] };
         }
+        //get cart data shopping
+        case CONSTANTS.GET_CART_DATA: {
+            state.cartData = action.cartData.reverse();
+            return { ...state };
+        }
         case CONSTANTS.ADD_CUSTOMER: {
+            createIdCustomer();
             state.user = action.user;
-            // writeUsertData('Customer',state.user, initialState.idNewUser)
+            writeUsertData('Customer', state.user)
             return { ...state };
         }
 
         case CONSTANTS.ADD_ITEM_IN_CART:
             {
+                createIdCart();
                 let index = state.cartItems.findIndex(x => x.id === action.payload.id);
                 // Is the item user wants to add already in the cart?
                 if (index !== -1) {

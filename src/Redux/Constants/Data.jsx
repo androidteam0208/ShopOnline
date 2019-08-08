@@ -11,8 +11,11 @@ export const SET_LOGGED_IN_USER = "SET_LOGGED_IN_USER";
 // get data from firebase
 export const GET_MENU_DATA ="GET_MENU_DATA";
 export const GET_PRODUCT_DATA ="GET_PRODUCT_DATA";
+export const GET_CART_DATA ="GET_CART_DATA";
+
 
 //add Shoppingcard to fireBase
 export const ADD_SHOPPING_CART  ="ADD_SHOPPING_CART";
 export const ADD_CUSTOMER ="ADD_CUSTOMER";
 export const CLEAR_CART ="CLEAR_CART";
+export const SET_TOTAL_PRICE = "SET_TOTAL_PRICE";

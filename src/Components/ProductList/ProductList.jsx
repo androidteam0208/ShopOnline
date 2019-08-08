@@ -21,7 +21,7 @@ const sortOptions = [
     Sort by price: High to Low
   </MenuItem>
 ];
-
+ 
 // This component retrieves the products it needs to show.
 // It determines the kind of products it needs to show from query string.
 // It checks the query string on first render and on every props change.
@@ -35,10 +35,16 @@ class ProductList extends Component {
       wholeDataLength: null,
       items: []
     };
+    Api.getDataProductAction();
 
     this.getParamFromQS = this.getParamFromQS.bind(this);
     this.updateURLAndRedirect = this.updateURLAndRedirect.bind(this);
   }
+  componentWillMount(){
+    Api.getDataProductAction();
+  }
+  
+  
 
   // Convert object to query string
   objectToQueryString(params) {
@@ -91,6 +97,7 @@ class ProductList extends Component {
     }
   }
 
+
   async fetchData(props = this.props) {
     this.setState(ps => ({ unfinishedTasks: ps.unfinishedTasks + 1 }));
 
@@ -135,6 +142,10 @@ class ProductList extends Component {
       pageTitle = "Search results";
     }
     return pageTitle;
+  }
+  reduce(){
+    console.log("reduce");
+    console.log("aaa");
   }
 
   render() {
@@ -207,7 +218,7 @@ class ProductList extends Component {
             <CircularProgress className="circular " />
           ) : (
             this.state.items.map(item => {
-              return <Item key={item.id} item={item} />;
+              return <Item key={item.id} item={item} reduceInventory={()=>this.reduce()} />;
             })
           )}
         </div>

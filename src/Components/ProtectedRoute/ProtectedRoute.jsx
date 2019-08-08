@@ -1,4 +1,4 @@
-import { Route, Redirect } from "react-router-dom";
+import { Route} from "react-router-dom";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -12,16 +12,9 @@ const ConnectedProtectedRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={props => {
-        return rest.loggedInUser ? (
+        return (
           <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: props.location }
-            }}
-          />
-        );
+        )
       }}
     />
   );

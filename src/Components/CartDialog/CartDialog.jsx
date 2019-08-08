@@ -7,19 +7,19 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { connect } from "react-redux";
-import { showCartDlg, setCheckedOutItems } from "../../Redux/Actions/Data";
+import { showCartDlg, setCheckedOutItems,clearCartAction,setTotalPriceAction  } from "../../Redux/Actions/Data";
 import { withRouter } from "react-router-dom";
 import CartRow from "./CartRow";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCartOutlined";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+
+import Swal from 'sweetalert2'
 
 
 
 class ConnectedCartDialog extends Component {
-  constructor(props) {
-    super(props);
-}
   render() {
     let totalPrice = this.props.items.reduce((accumulator, item) => {
       return accumulator + item.price * item.quantity;
@@ -41,7 +41,19 @@ class ConnectedCartDialog extends Component {
                 style={{ color: "white", marginRight: 10 }}
               />
               Shopping Cart
+              <span  style={{display:"inline-block" , position:"absolute" , right:10}}>
+              <HighlightOffIcon   
+                fontSize="large"
+                style={{ color: "white" , cursor:"pointer" }}
+                onClick = {()=>{
+                  this.props.dispatch(showCartDlg(false));
+                }}
+             
+            />
+              </span>
+            
             </Toolbar>
+            
           </AppBar>
 
           <div
@@ -82,21 +94,61 @@ class ConnectedCartDialog extends Component {
               {" "}
               Total Price: {totalPrice} $
             </div>
+            <div  style={{ float: "right"}}> 
             <Button
-              style={{ float: "right", margin: 20 }}
+              style={{margin: "20px 5px" }}
               variant="outlined"
               color="primary"
               disabled={totalPrice === 0}
               onClick={() => {
-                this.props.dispatch(showCartDlg(false));
+                // console.log(this.props.items.);
+                this.props.dispatch(showCartDlg(false));       
+                this.props.dispatch(setTotalPriceAction(totalPrice));
                 this.props.dispatch(setCheckedOutItems(this.props.items));
-                // console.log(this.props.items);
                 
                 this.props.history.push("/order");
               }}
             >
               Checkout
             </Button>
+            <Button
+              style={{ margin:"20px 5px" }}
+              variant="outlined"
+              color="secondary"
+              onClick={() => {
+                this.props.dispatch(showCartDlg(false));
+                Swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to revert this!",
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, Clear!',
+                }).then((result) => {
+                  
+                  if (result.value) {
+                    this.props.dispatch(clearCartAction());
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Deleted!',
+                      text:  'Your cart has been deleted.',
+                      showConfirmButton: false,
+                      timer: 800,
+                    })
+                  }
+                  else{
+                    this.props.dispatch(showCartDlg(true));
+                  }
+                })
+               
+                
+              }}
+            >
+              Clear Cart
+            </Button>
+            </div>
+            
           </div>
         </Dialog>
       </div>
@@ -109,6 +161,7 @@ const mapStateToProps = (state) => {
     items: state.rootReducer.cartItems ,
   };
 };
+
 
 const CartDialog = withRouter(connect(mapStateToProps)(ConnectedCartDialog));
 export default CartDialog;

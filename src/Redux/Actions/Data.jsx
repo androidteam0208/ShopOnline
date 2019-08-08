@@ -17,19 +17,35 @@ export const getMenuDataAction = () => {
     })
   }
 }
-export const getDataProduct = () => {
+export const getDataProductAction = () => {
   return dispatch => {
     axios({
       url: 'https://shoponline-5fa44.firebaseio.com/Product.json',
       method: 'GET'
     }).then(result => {
-      console.log(result.data);
+      // console.log(result.data);
       dispatch({
         type: CONSTANTS.GET_PRODUCT_DATA,
         productData: result.data
       })
     }).catch(erorr => {
-      // console.log(erorr.response.data);
+      console.log(erorr.data);
+    })
+  }
+}
+//get order 
+export const getDataCartAction = () => {
+  return dispatch => {
+    axios({
+      url: 'https://shoponline-5fa44.firebaseio.com/ShoppingCart.json',
+      method: 'GET'
+    }).then(result => {
+      dispatch({
+        type: CONSTANTS.GET_CART_DATA,
+        cartData: result.data
+      })
+    }).catch(erorr => {
+      console.log(erorr.data);
     })
   }
 }
@@ -51,7 +67,13 @@ export const addCustomerAction = (user) => {
 export const clearCartAction = () => ({
   type: CONSTANTS.CLEAR_CART,
 });
-
+//set total price
+export const setTotalPriceAction = (price) => {
+  return {
+    type: CONSTANTS.SET_TOTAL_PRICE,
+    price
+  }
+}
 export const addItemInCart = item => ({
   type: CONSTANTS.ADD_ITEM_IN_CART,
   payload: item
@@ -81,3 +103,4 @@ export const setLoggedInUser = userName => ({
   type: CONSTANTS.SET_LOGGED_IN_USER,
   payload: userName
 });
+

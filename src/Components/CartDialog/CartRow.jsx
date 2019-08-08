@@ -9,13 +9,13 @@ import {
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from "@material-ui/core/IconButton";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
+import TextField from "@material-ui/core/TextField";
+
+// import Swal from 'sweetalert2'
 
 const CartRow = props => {
   let { item } = props;
-
+  
   return (
     <TableRow className="text-center">
       <TableCell>
@@ -32,40 +32,14 @@ const CartRow = props => {
           </div>
         </Link>
       </TableCell>
-      <TableCell>{item.price}</TableCell>
+      <TableCell>$ {item.price}.00</TableCell>
       <TableCell>
         <div className="row">
-          <IconButton style={{ width: 30 , height:30}} onClick={() => {
-            let val = parseInt(item.quantity);
-            if (val > 1) {
-              val -= 1;
-              item.quantity = val;
-            }
-
-          }}>
-            <RemoveIcon size="small" />
-          </IconButton>
-          <IconButton  
-              style={{ width: 30 , height:30}} 
-              color="secondary" 
-              onChange={e => {
-              let quantity = parseInt(e.target.value, 10);
-              if (quantity < 0) return;
-
-              // Update quantity for this cart item.
-              props.dispatch(
-                updateCartItemQnt({
-                  id: item.id,
-                  quantity
-                })
-              );
-            }}>
-          {item.quantity}
-          </IconButton>
           &nbsp;
-            {/* <TextField
+            <TextField
             type="number"
             style={{ width: 40 }}
+            inputProps={{ min: "1", max: "10", step: "1" }}
             value={item.quantity}
             onChange={e => {
               let quantity = parseInt(e.target.value, 10);
@@ -79,17 +53,8 @@ const CartRow = props => {
                 })
               );
             }}
-          /> */}
-          &nbsp;
-             <IconButton style={{ width: 30 , height:30}} onClick={() => {
-            let val = parseInt(item.quantity);
-            val += 1;
-            item.quantity = val;
-
-
-          }}>
-            <AddIcon size="small" />
-          </IconButton>
+          />
+          
         </div>
 
       </TableCell>
@@ -97,8 +62,9 @@ const CartRow = props => {
         <Button
           color="secondary"
           onClick={() => {
-            // Delete this cart item.
             props.dispatch(deleteCartItem(item.id));
+            // Delete.
+            
           }}
         >
           <DeleteIcon />

@@ -1,13 +1,32 @@
-import { sampleProducts } from "./Data";
-// import axios from 'axios';
+import axios from 'axios';
 
 // Methods of this class are used to simulate calls to server.
 
 class Api {
+  sampleProducts=[];
+
+  getDataProductAction(){
+    
+      axios({
+        url: 'https://shoponline-5fa44.firebaseio.com/Product.json',
+        method: 'GET'
+      }).then(result => { 
+        this.sampleProducts = [];
+        result.data.map((item)=>{
+          this.sampleProducts.push(item);
+        });
+      }).catch(erorr => {
+        console.log(erorr.data);
+      })
+    return;
+  }
+  
+  // 
+
   getItemUsingID(id) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        let res = sampleProducts.filter(x => x.id === parseInt(id, 10));
+        let res = this.sampleProducts.filter(x => x.id === parseInt(id, 10));
         resolve(res.length === 0 ? null : res[0]);
       }, 500);
     });
@@ -17,17 +36,21 @@ class Api {
     if (!sortval) return data;
 
     let items = JSON.parse(JSON.stringify(data));
-
-    if (sortval === "lh") {
-      items.sort((a, b) =>
-        a.price > b.price ? 1 : b.price > a.price ? -1 : 0
-      );
-    } else if (sortval === "hl") {
-      items.sort((a, b) =>
-        a.price < b.price ? 1 : b.price < a.price ? -1 : 0
-      );
+    if(items!== null){
+      if (sortval === "lh") {
+        items.sort((a, b) =>
+          a.price > b.price ? 1 : b.price > a.price ? -1 : 0
+        );
+      } else if (sortval === "hl") {
+        items.sort((a, b) =>
+          a.price < b.price ? 1 : b.price < a.price ? -1 : 0
+        );
+      }
     }
-
+    else{
+      console.log("error");
+      
+    }
     return items;
   }
 
@@ -47,7 +70,7 @@ class Api {
       maxPrice = parseInt(maxPrice, 0);
 
       setTimeout(() => {
-        let data = sampleProducts.filter(item => {
+        let data = this.sampleProducts.filter(item => {
           if (
             usePriceFilter &&
             (item.price < minPrice || item.price > maxPrice)
