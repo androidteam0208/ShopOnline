@@ -86,9 +86,15 @@ class ConnectedHeader extends Component {
                 onChange={e => {
                   this.setState({ searchTerm: e.target.value });
                 }}
+<<<<<<< HEAD
 
               />
 
+=======
+
+              />
+
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
               <Select className="header-select"
                 value={this.state.categoryFilter}
                 MenuProps={{
@@ -116,7 +122,11 @@ class ConnectedHeader extends Component {
                 }}
               >
                 {" "}
+<<<<<<< HEAD
                 <SearchIcon color="primary" size="small" />Search
+=======
+                <SearchIcon color="primary" size="small" />   Search
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
             </Button>
             </div>
 
@@ -195,6 +205,12 @@ class ConnectedHeader extends Component {
                       this.setState({ anchorEl: null });
                     }
                   })
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
                 }}
               >
                 Logout

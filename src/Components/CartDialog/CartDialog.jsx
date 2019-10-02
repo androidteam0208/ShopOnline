@@ -13,9 +13,15 @@ import CartRow from "./CartRow";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCartOutlined";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+<<<<<<< HEAD
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 import Swal from 'sweetalert2'
+=======
+// import IconButton from "@material-ui/core/IconButton";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
 
 
 

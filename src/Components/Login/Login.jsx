@@ -5,10 +5,20 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import CreateIcon from "@material-ui/icons/Create";
+<<<<<<< HEAD
+=======
+// import VisibilityIcon from "@material-ui/icons/Visibility";
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
 import { setLoggedInUser } from "../../Redux/Actions/Data";
 import firebase from 'firebase';
 
 import Swal from 'sweetalert2'
+<<<<<<< HEAD
+=======
+
+import "./Login.css";
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
+
 
 class ConnectedLogin extends Component {
   // constructor(props) {
@@ -18,7 +28,11 @@ class ConnectedLogin extends Component {
   state = {
     userName: "",
     pass: "",
+<<<<<<< HEAD
     status: false,
+=======
+    redirectToReferrer: false,
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
   };
 
   handleInput = (event) => {
@@ -87,7 +101,11 @@ class ConnectedLogin extends Component {
               firebase.auth().signInWithEmailAndPassword(this.state.userName, this.state.pass).then(() => {
                 this.props.dispatch(setLoggedInUser(this.state.userName));
                 this.setState(() => ({
+<<<<<<< HEAD
                   status: true,
+=======
+                  redirectToReferrer: true,
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
                 }));
               }).catch((error) => {
                 // var errorCode = error.code;

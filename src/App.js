@@ -24,7 +24,11 @@ class App extends Component {
   render() {
     return (
       <div className="app">
+<<<<<<< HEAD
         <Header/>
+=======
+        <Header />
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
         <div className="app-body" style={{marginTop:80, minHeight:570}}>
           <Menu />
           <div className="content">

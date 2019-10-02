@@ -19,6 +19,7 @@ class ConnectedLogin extends Component {
   state = {
     passWord: "",
     email: "",
+<<<<<<< HEAD
     redirectToReferrer: false,
     loginName: "",
     phone:"",
@@ -27,10 +28,19 @@ class ConnectedLogin extends Component {
 
   handleInput = (event) => {
     let name = event.target.name;
+=======
+    redirectToReferrer: false ,
+    loginName:"",
+  };
+
+  handleInput = (event) => {
+    let name = event.target.name; 
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
     let value = event.target.value;
     this.setState({
       [name]: value
     });
+<<<<<<< HEAD
 
   }
 
@@ -62,6 +72,11 @@ class ConnectedLogin extends Component {
   }
 
 
+=======
+    
+  }
+  
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
   render() {
 
     // this.createId();
@@ -81,8 +96,13 @@ class ConnectedLogin extends Component {
           }}
         >
           <AccountCircleIcon
+<<<<<<< HEAD
             // fontSize
             style={{ fontSize: 50, color: "#F50057", cursor: "pointer", margin: "0 auto" }}
+=======
+          // fontSize
+          style={{ fontSize: 50, color: "#F50057" , cursor:"pointer" , margin: "0 auto"}}
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
           />
           <div
             style={{
@@ -111,6 +131,7 @@ class ConnectedLogin extends Component {
           </div>
 
           <TextField
+<<<<<<< HEAD
             style={{ marginTop: 10 }}
             label="Name *"
             name="loginName"
@@ -132,10 +153,34 @@ class ConnectedLogin extends Component {
           />
           <span  style={{ marginTop: 25 , color:"red" }}>* field must not empty</span>
 
+=======
+            type="email"
+            label="Email Address *"
+            name="email"
+            onChange={this.handleInput}
+          />
+          <TextField
+           style={{ marginTop: 10 }}
+            type="password"
+            label="Password *"
+            name="passWord"
+            onChange={this.handleInput}
+          />
+          <TextField
+            style={{ marginTop: 10 }}
+            label="User Name *"
+            name="loginName"
+            onChange={this.handleInput}
+          />
+          
+
+         
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
           <Button
            style={{ marginTop: 5 }}
             variant="contained"
             color="secondary"
+<<<<<<< HEAD
             onClick={() => {
               // console.log(this.state);
               if(this.validateForm()){
@@ -146,6 +191,22 @@ class ConnectedLogin extends Component {
                 this.props.addCustomer(this.state);
                 this.props.history.push("/login");
               }).catch((error) => {
+=======
+            onClick= {()=>{
+              this.props.addCustomer(this.state);
+              firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.passWord).then(()=>{
+                this.props.addCustomer(this.state);
+                Swal.fire({
+                  type: 'success',
+                  title: 'SignUp Suceessfull !',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+                this.props.history.push("/login");
+
+              }).catch((error)=> {
+                // var errorCode = error.code;
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
                 var errorMessage = error.message;
                 Swal.fire({
                   title: 'Error!',
@@ -157,6 +218,7 @@ class ConnectedLogin extends Component {
           >
             Sign up
           </Button>
+<<<<<<< HEAD
 
           <span
             style={{ color: "#303f9f", textAlign: "right", marginTop: 10, cursor: "pointer", fontSize: 18 }}
@@ -168,6 +230,19 @@ class ConnectedLogin extends Component {
             /> Login </span>
         </div>
 
+=======
+          
+          <span
+            style={{ color:"#303f9f", textAlign: "right", marginTop: 5, cursor: "pointer" , fontSize:18}}
+            onClick={() => {
+              this.props.history.push("/Login");
+            }}>
+             <LockOutlinedIcon
+            style={{ color: "#303f9f", cursor: "pointer", margin: "0 auto" }}
+          /> Login </span>
+        </div>
+        
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
       </div>
     );
   }

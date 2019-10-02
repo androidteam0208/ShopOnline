@@ -6,7 +6,14 @@ import Button from "@material-ui/core/Button";
 import { addShoppingCartAction, clearCartAction } from "./../../Redux/Actions/Data"
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import firebase from 'firebase';
+<<<<<<< HEAD
 import Swal from 'sweetalert2'
+=======
+import { addShoppingCartAction , clearCartAction} from "./../../Redux/Actions/Data"
+import Swal from 'sweetalert2'
+
+// import "./Login.css";
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
 
 class payment extends Component {
   state = {
@@ -24,6 +31,7 @@ class payment extends Component {
     this.setState({
       [name]: value
     });
+<<<<<<< HEAD
 
   }
 
@@ -92,6 +100,37 @@ class payment extends Component {
 
 
   }
+=======
+    
+  }
+handleInputValidation = (event) => {
+  let textError = "";
+  let name = event.target.name;  
+  let checkingText = event.target.value;
+  console.log(name);
+  
+  if(name === "firstName" || name === "lastName"){
+    let regexp = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)$/;
+    let checkingResult = regexp.exec(checkingText);
+    if (checkingResult == null) {
+       textError= 'Name dont had number and Special character  ! ';
+    }
+  }
+  else if(name === "phone"){
+    let regexp = /^\d{10,11}$/;
+    let checkingResult = regexp.exec(checkingText);
+    if (checkingResult == null) {
+       textError= 'NumberPhone content 10-11 number character ! ';
+    }
+  }
+  Swal.fire({
+    title: 'Warning!',
+    text: textError,
+    type: 'warning',
+  })
+  
+}
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
 
 
   cartInfor = {
@@ -155,6 +194,7 @@ class payment extends Component {
             name="phone"
             value={this.state.phone}
             onChange={this.handleInput}
+            onBlur={this.handleInputValidation}
           />
           <TextField
             style={{ marginTop: 10 }}
@@ -162,7 +202,11 @@ class payment extends Component {
             name="address"
             value={this.state.address}
             onChange={this.handleInput}
+<<<<<<< HEAD
 
+=======
+           
+>>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
           />
           <div className="d-flex mt-2 justify-content-between">
             <TextField style={{ marginTop: 10, width: 230 }}
