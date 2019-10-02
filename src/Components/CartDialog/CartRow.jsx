@@ -10,12 +10,6 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from "@material-ui/core/TextField";
-<<<<<<< HEAD
-=======
-// import IconButton from "@material-ui/core/IconButton";
-// import AddIcon from "@material-ui/icons/Add";
-// import RemoveIcon from "@material-ui/icons/Remove";
->>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
 
 // import Swal from 'sweetalert2'
 
@@ -41,36 +35,6 @@ const CartRow = props => {
       <TableCell>$ {item.price}.00</TableCell>
       <TableCell>
         <div className="row">
-<<<<<<< HEAD
-=======
-          {/* <IconButton style={{ width: 30 , height:30}} onClick={() => {
-            let val = parseInt(item.quantity);
-            if (val > 1) {
-              val -= 1;
-              item.quantity = val;
-            }
-
-          }}>
-            <RemoveIcon size="small" />
-          </IconButton>
-          <IconButton  
-              style={{ width: 30 , height:30}} 
-              color="secondary" 
-              onChange={e => {
-              let quantity = parseInt(e.target.value, 10);
-              if (quantity < 0) return;
-
-              // Update quantity for this cart item.
-              props.dispatch(
-                updateCartItemQnt({
-                  id: item.id,
-                  quantity
-                })
-              );
-            }}>
-          {item.quantity}
-          </IconButton> */}
->>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
           &nbsp;
             <TextField
             type="number"
@@ -90,20 +54,6 @@ const CartRow = props => {
               );
             }}
           />
-<<<<<<< HEAD
-          
-=======
-          &nbsp;
-             {/* <IconButton style={{ width: 30 , height:30}} onClick={() => {
-            let val = parseInt(item.quantity);
-            val += 1;
-            item.quantity = val;
-
-
-          }}>
-            <AddIcon size="small" />
-          </IconButton> */}
->>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
         </div>
 
       </TableCell>

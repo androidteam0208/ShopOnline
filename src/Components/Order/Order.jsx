@@ -9,11 +9,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
-<<<<<<< HEAD
 import { setCheckedOutItems  } from "../../Redux/Actions/Data";
-=======
-import { setCheckedOutItems , clearCartAction} from "../../Redux/Actions/Data";
->>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
+
 import Swal from 'sweetalert2'
 
 
@@ -102,11 +99,6 @@ class ConnectedOrder extends Component {
               
               if (result.value) {
                 this.props.dispatch(setCheckedOutItems([]));
-<<<<<<< HEAD
-                // this.props.dispatch(clearCartAction());
-=======
-                this.props.dispatch(clearCartAction());
->>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
                 Swal.fire(
                   'Deleted!',
                   'Your cart has been deleted.',

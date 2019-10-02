@@ -22,7 +22,6 @@ const initialState = {
     cartInfor: {},
     idShoppingCart: 0,
     //for user
-<<<<<<< HEAD
     user: {},
     idNewUser: 0,
 
@@ -32,18 +31,12 @@ const initialState = {
     //inventory update
     inventory: 0,
 
-=======
-    user:{},
-    idNewUser: 0,
-
->>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
 
 };
 function createIdCart() {
 
     firebase.database().ref().child("ShoppingCart").on("value", function (snapshot) {
         let idCart = snapshot.numChildren();
-<<<<<<< HEAD
         let arr = snapshot.val();
         let arr2 = Object.keys(arr);
         let key = parseInt(arr2[idCart - 1]) + 1;
@@ -52,6 +45,7 @@ function createIdCart() {
     });
     return;
 }
+
 function createIdCustomer() {
     firebase.database().ref().child("Customer").on("value", function (snapshot) {
         let idUser = snapshot.numChildren();
@@ -63,23 +57,12 @@ function createIdCustomer() {
     });
     return;
 
-=======
-        initialState.idShoppingCart = idCart;
-    });
-    firebase.database().ref().child("Customer").on("value", function (snapshot) {
-        let idUser = snapshot.numChildren();
-        console.log(idUser);
-        
-        initialState.idNewUser = idUser;
-    });
-    return;
->>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
 }
 
 function writeCartData(table, data) {
     var updates = {};
     updates[`/${table}/` + initialState.idShoppingCart] = data;
-<<<<<<< HEAD
+
     firebase.database().ref().update(updates).then(() => {
         Swal.fire({
             type: 'success',
@@ -90,19 +73,13 @@ function writeCartData(table, data) {
     }).catch((error) => {
         var errorMessage = error.message;
         alert(errorMessage);
-=======
-    firebase.database().ref().update(updates).then(()=>{
-        // alert("Order Successfull")
-    }).catch((error)=>{
-        var errorMessage = error.message;
-        alert(errorMessage); 
->>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
+
+
     });
 }
 
 function writeUsertData(table, data) {
     var updates = {};
-<<<<<<< HEAD
     var userId = firebase.auth().currentUser.uid;
 
     updates[`/${table}/` + userId] = data;
@@ -114,12 +91,7 @@ function writeUsertData(table, data) {
             timer: 1000
         })
     }).catch((error) => {
-=======
-    updates[`/${table}/` + initialState.idNewUser] = data;
-    firebase.database().ref().update(updates).then(()=>{
-        // alert("Save User Successfull")
-    }).catch((error)=>{
->>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
+
         var errorMessage = error.message;
         Swal.fire({
             type: 'error',
@@ -186,11 +158,8 @@ const rootReducer = (state = initialState, action) => {
         case CONSTANTS.ADD_CUSTOMER: {
             createIdCustomer();
             state.user = action.user;
-<<<<<<< HEAD
             writeUsertData('Customer', state.user)
-=======
-            writeUsertData('Customer',state.user)
->>>>>>> b0c3898fc4bfbd2cf95870ea9c6d28e43615454e
+
             return { ...state };
         }
 
